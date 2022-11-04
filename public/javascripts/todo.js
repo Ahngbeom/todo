@@ -6,23 +6,24 @@ $(document).ready(function () {
 			async: false,
 			success: function (list) {
 				console.log(list);
-				list = JSON.parse(list).list;
+				if (list != null) {
+					var trs = '';
+					for (var i = 0, len = list.length; i < len; i++) {
+						var elem = JSON.parse(list[i]);
+						trs += '<tr>' +
+							'<td>' + (i + 1) + '</td>' +
+							'<td>' + elem.contents;
 
-				var trs = '';
-				for (var i = 0, len = list.length; i < len; i++) {
-					trs += '<tr>' +
-						'<td>' + (i + 1) + '</td>' +
-						'<td>' + list[i].contents;
-
-					if (list[i].complete)
-						trs += ' (완료)</td>';
-					else
-						trs += '</td>';
-					trs += '<td><button type="button" class="btn btn-success">완료</button></td>' +
-						'<td><button type="button" class="btn btn-danger">삭제</button></td>' +
-						'</tr>';
+						if (elem.complete)
+							trs += ' (완료)</td>';
+						else
+							trs += '</td>';
+						trs += '<td><button type="button" class="btn btn-success">완료</button></td>' +
+							'<td><button type="button" class="btn btn-danger">삭제</button></td>' +
+							'</tr>';
+					}
+					$('tbody').html(trs);
 				}
-				$('tbody').html(trs);
 			}
 		});
 	}
